@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+   
+   <sql id="reviewColumn">
+      num,writer,title,content,stars,nickname,
+      TO_CHAR(regdate,'YYYY.MM.DD AM HH:MI') AS regdate,imagePath,
+      orgImageName, saveImageName, ImageSize, startRowNum, endRowNum,
+      prevNum, nextNum
+   </sql>
+
+
+   <insert id="insert" parameterType="ManageDto">
+      INSERT INTO manage
+      (num, writer, title, content, stars, nickname, regdate,imagePath,orgImageName,saveImageName,
+      ImageSize)
+      VALUES(manage_seq.NEXTVAL, #{writer}, #{title},
+         #{content}, #{stars}, #{nickname}, SYSDATE, #{imagePath}, #{orgImageName}, #{saveImageName}, 
+         #{ImageSize})
+   </insert>
+   
+   <select id="getList" parameterType="ManageDto"
+      resultType="ManageDto">
+      SELECT *
+      FROM (SELECT result1.*, ROWNUM rnum
+           FROM ( SELECT <include refid="reviewColumn"/>
+               FROM manage
+               ORDER BY num DESC ) result1
+           )
+      WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum} AND content is not null 
+
+   </select>
+   
+   <select id="getCount" resultType="int">
+      SELECT NVL(MAX(ROWNUM), 0)
+      FROM manage
+   </select>
+
+</mapper>

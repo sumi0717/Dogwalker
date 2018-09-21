@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<settings>
+   <setting name="jdbcTypeForNull" value="VARCHAR"/>
+ </settings>
+ 
+	<typeAliases>
+		<typeAlias type="com.dog.walker.petwalker.dto.PetwalkerDto" alias="petwalkerDto" />
+		<typeAlias type="com.dog.walker.manage.dto.ManageDto" alias="manageDto" />
+		<typeAlias type="com.dog.walker.cafe.dto.CafeDto" alias="cafeDto"/>
+		<typeAlias type="com.dog.walker.cafe.dto.CafeCommentDto" alias="commentDto"/>
+		<typeAlias type="com.dog.walker.petusers.dto.PetusersDto" alias="petusersDto" />
+		<typeAlias type="com.dog.walker.reservation.dto.ReservationDto" alias="reservationDto"></typeAlias>
+		<typeAlias type="com.dog.walker.search.dto.SearchDto" alias="searchDto" />
+		<typeAlias type="com.dog.walker.search.dto.StarDto" alias="starDto"/>
+
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="com/dog/walker/mybatis/PetwalkerMapper.xml" />
+		<mapper resource="com/dog/walker/mybatis/ReviewMapper.xml" />
+		<mapper resource="com/dog/walker/mybatis/SearchMapper.xml" />
+		<mapper resource="com/dog/walker/mybatis/WalkerprofileMapper.xml" />
+		<mapper resource="com/dog/walker/mybatis/DetailReserveMapper.xml" />
+		<mapper resource="com/dog/walker/mybatis/CafeMapper.xml"/>
+		<mapper resource="com/dog/walker/mybatis/CafeCommentMapper.xml"/>
+		<mapper resource="com/dog/walker/mybatis/PetusersMapper.xml" />
+	</mappers>
+	
+
+	
+	
+</configuration>

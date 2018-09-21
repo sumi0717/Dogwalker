@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rsv">
+
+   <select id="getList" resultType="reservationDto" parameterType="reservationDto" >
+      SELECT num, id, kakao, nickname, dogSize, selectDate, timeSlot, cctv, petwalker, isReserved
+      FROM reservation
+      WHERE petwalker=#{id}
+   </select>
+   
+   <select id="getList2" resultType="reservationDto" parameterType="reservationDto" >
+      SELECT num, id, kakao, nickname, dogSize, selectDate, timeSlot, cctv, petwalker, isReserved
+      FROM reservation
+      WHERE nickname=#{nickname}
+   </select>
+   
+   
+   <select id="pUserGetData" parameterType="String" resultType="com.dog.walker.petusers.dto.PetusersDto">
+      SELECT id, kakao, nickname FROM pet_users WHERE id=#{id}
+   </select>
+
+   <insert id="insert" parameterType="reservationDto" >
+      INSERT INTO reservation
+      (num, id, kakao, nickname,dogSize,selectDate,timeSlot,cctv,petwalker,isReserved)
+      VALUES(manage_seq.NEXTVAL, #{id}, #{kakao}, #{nickname},
+      #{dogSize},#{selectDate},#{timeSlot},#{cctv}, #{petwalker}, 0)
+   </insert>
+   
+   
+   
+   <select id="rgetList" parameterType="manageDto" resultType="manageDto">
+   		SELECT num, title, content, stars, nickname, regdate, imagePath,orgImageName,saveImageName,
+        ImageSize FROM manage WHERE nickname=#{nickname} AND content is not null
+   </select>
+   
+   
+	<select id="pwkGetData" parameterType="manageDto" resultType="manageDto">
+         SELECT nickname, career, experience, freeservice, filePath, orgFileName, saveFileName,
+         filesize FROM manage WHERE nickname=#{nickname} AND content is null
+   </select>
+
+	 <update id="rsvConfirm" parameterType="int" >
+   		UPDATE reservation SET isReserved = 1 WHERE num=#{num}
+   </update>
+    <update id="rsvConfirmX" parameterType="int" >
+   		UPDATE reservation SET isReserved = 2 WHERE num=#{num}
+   </update>
+   
+</mapper>

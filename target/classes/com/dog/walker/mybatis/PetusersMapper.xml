@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="petusers">
+
+	<select id="getList" parameterType="string"
+		resultType="petusersDto">
+		SELECT * FROM pet_users ORDER BY id DESC
+	</select>
+
+	<select id="getData" parameterType="string"
+		resultType="petusersDto">
+		SELECT * FROM pet_users WHERE id=#{id}
+	</select>
+	
+	<select id="getData2" parameterType="string"
+		resultType="petusersDto">
+		SELECT * FROM pet_users WHERE writer=#{writer}
+	</select>
+	
+
+	<insert id="insert" parameterType="petusersDto">
+		INSERT INTO pet_users
+		(id,nickname,pwd,kakao,phone,addr,sex,imagePath,hasPet,
+		regdate,orgFileName,saveFileName,fileSize) VALUES(#{id},
+		#{nickname}, #{pwd}, #{kakao}, #{phone}, #{addr}, #{sex}, #{imagePath}, #{hasPet}, SYSDATE, #{orgFileName}, #{saveFileName}, #{fileSize})
+	</insert>
+
+	<update id="update" parameterType="petusersDto">
+		UPDATE pet_users SET kakao = #{kakao}, phone = #{phone}, addr = #{addr},
+		hasPet = #{hasPet}
+		WHERE id = #{id}
+	</update>
+
+
+	<delete id="delete" parameterType="String">
+		DELETE FROM pet_users WHERE id = #{id}
+	</delete>
+
+	<select id="isExist" parameterType="petusersDto"
+		resultType="string">
+		SELECT id
+		FROM pet_users
+		WHERE id=#{id}
+	</select>
+
+	<update id="updatePwd" parameterType="petusersDto">
+		update pet_users
+		set pwd=#{pwd}
+		where id=#{id}
+	</update>
+
+	<update id="updateImg" parameterType="petusersDto">
+		update pet_users
+		set imagePath=#{imagePath}
+		where id=#{id}
+	</update>
+	
+	<update id="isConfirmed" parameterType="String">
+		update pet_users set isConfirmed=isConfirmed+1 where nickname=#{nickname}
+	</update>
+	
+	<update id="isReviewed" parameterType="String">
+		update pet_users set isConfirmed=isConfirmed-1 where id=#{id}
+	</update>
+</mapper>

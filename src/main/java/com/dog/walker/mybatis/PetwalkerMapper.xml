@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="petwalker">
+	<select id="getList" parameterType = "string" resultType="petwalkerDto">
+		<!-- SELECT * FROM pet_walker WHERE addr LIKE '%' || SUBSTR(#{input_address},1,3) || '%' -->
+		
+		SELECT * FROM (SELECT * FROM pet_walker 
+			<where>
+				<if test='"#{input_address}" != null'>
+					OR addr LIKE '%' || SUBSTR(#{input_address},1,3) || '%'
+				</if>
+			</where>
+		) 
+		
+	</select>
+
+	<select id="getData" parameterType="string"
+		resultType="petwalkerDto">
+		SELECT * FROM pet_walker WHERE id=#{id}
+	</select>
+	
+	<select id="getData1" parameterType="string" resultType="petwalkerDto">
+		SELECT * FROM pet_walker WHERE writer=#{writer}
+	</select>
+	
+	
+
+	<select id="getCount" parameterType = "string" resultType = "int">
+		SELECT NVL(MAX(ROWNUM),0) FROM pet_walker where addr LIKE '%' || SUBSTR(#{input_address},1,3) || '%'
+	</select>
+
+
+	<insert id="insert" parameterType="petwalkerDto">
+		INSERT INTO pet_walker (id,nickname,pwd,kakao,phone,addr,sex,imagePath,hasPet,evaluation,
+		regdate,orgFileName,saveFileName,fileSize,isProfiled) VALUES(#{id}, 
+		#{nickname}, #{pwd}, #{kakao}, #{phone}, #{addr}, #{sex},#{imagePath} ,#{hasPet},
+	    #{evaluation}, SYSDATE,#{orgFileName}, #{saveFileName}, #{fileSize}, 0)
+	</insert>
+
+	<update id="update" parameterType="petwalkerDto">
+		UPDATE pet_walker
+		SET
+		imagePath = #{imagePath},
+		orgFileName = #{orgFileName},
+		saveFileName =#{saveFileName},
+		fileSize = #{fileSize},
+		kakao = #{kakao}, phone = #{phone}, addr = #{addr}, hasPet = #{hasPet}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete" parameterType="String">
+		DELETE FROM pet_walker WHERE id = #{id}
+	</delete>
+
+	<select id="isExist" parameterType="petwalkerDto"
+		resultType="string">
+		SELECT id
+		FROM pet_walker
+		WHERE id=#{id}
+	</select>
+
+	<update id="updatePwd" parameterType="petwalkerDto">
+		update pet_walker
+		set pwd=#{pwd}
+		where id=#{id}
+	</update>
+
+	<update id="updateImg" parameterType="petwalkerDto">
+		update pet_walker
+		set imagePath=#{imagePath}
+		where id=#{id}
+	</update>
+	
+	
+	<select id="getidandnicnameList" resultType="ManageDto">
+      SELECT id,nickname FROM pet_walker
+   </select>
+   
+   <update id="updateProfile" parameterType="String" >
+   		UPDATE pet_walker SET isProfiled = 1 WHERE id = #{id}
+   </update>
+   
+</mapper>
